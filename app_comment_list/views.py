@@ -33,9 +33,8 @@ class TopView(LoginView):
 class HomeView(LoginRequiredMixin , TemplateView):
      template_name = "home.html"
      def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
-          if not request.user.is_authenticated:
-               print('ログインしてないよ')
-               # なぜかこのメッセージが表示されてしまう。何故だろう。
+          if request.user.is_authenticated:
+               print('ホームビュー！')
           return super().dispatch(request, *args, **kwargs)
 
 class CommentListView(ListView):
