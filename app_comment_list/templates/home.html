@@ -1,6 +1,28 @@
 {% extends "base.html" %}
+
+
+{% block title %}ホーム画面{% endblock %}
+
+
+{% block content %}
  
- {% block title %}ホーム画面{% endblock %}
- {% block content %}
- <h1></h1>
- {% endblock %}
+   
+    <table border="1">
+
+        <!-- すべてのオブジェクトに対して繰り返し -->
+        {% for comment in object_list %}
+        <tr>
+            <td>コメントID:{{ comment.comment_id }}</td>
+            <td>コメントカテゴリ:{{ comment.category }} </td>
+            <td>コメントの内容:{{ comment.content }} </td>
+        </tr>
+        {% endfor %}    
+
+    </table>
+    
+    <!-- コメントアウト -->
+    {% comment %}
+    {% endcomment %}
+
+
+{% endblock %}

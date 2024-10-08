@@ -1,12 +1,13 @@
-from typing import Any
-from django.db.models.query import QuerySet
-from django.http import HttpRequest
-from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import render , redirect
-from django.views.generic import TemplateView , ListView
-from django.contrib.auth.views import LoginView , LogoutView
+from typing                     import Any
+from django.db.models.query     import QuerySet
+from django.http                import HttpRequest
+from django.http.response       import HttpResponse
+from django.shortcuts           import render , redirect
+from django.views.generic       import ListView
+from django.views.generic.edit  import CreateView
+from django.contrib.auth.views  import LoginView , LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Comment
+from .models                    import Comment
 
  # Create your views here.
 
@@ -24,34 +25,40 @@ class LoginView(LoginView):
                return redirect("home")
           return super().dispatch(request, *args, **kwargs)
 
-# ボツ。
-'''
-class TopView(LoginView):
-     template_name = 'top.html'
-'''
 
-class HomeView(LoginRequiredMixin , TemplateView):
+
+# ホーム画面
+class HomeView(LoginRequiredMixin , ListView):
      template_name = "home.html"
-     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
-          if request.user.is_authenticated:
-               print('ホームビュー！')
-          return super().dispatch(request, *args, **kwargs)
+     model = Comment
+     
+     # クラスベースビューの呼び出し時、クエリセットをログインユーザーのもののみに絞って返す。
+     def get_queryset(self):
+           current_user = self.request.user
+           return Comment.objects.filter(user= current_user) 
+     
 
+# コメントリスト画面。ボツ？
 class CommentListView(ListView):
      template_name = "comment_list.html"
      model = Comment
      def get_queryset(self):
            user = self.request.user
-           print(user)
-           return Comment.objects.filter(user = user) # ログインせずに呼び出すとエラー。エラーの理由はしらね。
-     # 今ログインしているユーザー
-     # def get_queryset(self) -> QuerySet[Any]:
-     #      return super().get_queryset()
+           return Comment.objects.filter(user= user) # ログインせずに呼び出すとエラー。エラーの理由はしらね。
+     
+
+
+# コメント新規作成ビュー。
+class CreateCommentView(LoginRequiredMixin , CreateView):
+     template_name = "comm_create.html"
+     model = Comment
+     fields = '__all__'
+     def dispatch(self, request, *args, **kwargs):
+          print('コメント新規作成だよ！')
+          return super().dispatch(request, *args, **kwargs)
 
 
 
+# ログアウトビュー。
 class LogoutView(LogoutView):
      template_name = 'top.html'
-     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
-          print('ログアウトしました！:' + request.user.username)
-          return super().dispatch(request, *args, **kwargs)

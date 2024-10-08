@@ -10,16 +10,29 @@
     <header>     
         <span>Django CRUDアプリ</span>
         <br>
-        {% if request.user.is_authenticated %}
-            <span>ようこそ{{user.get_username}}</span>
+
+        <!-- ログイン済ユーザー -->
+        {% if request.user.is_authenticated %}        
+            <span>ようこそ{{user.get_username}}</span><br>
+
+            <a href="{% url 'comm_create' %}">コメント新規作成</a>
+            <a href="{% url 'home' %}">相談する</a>
+            <a href="{% url 'home' %}">マイプロフィール</a>
+
+
+            <!-- ログアウトボタン -->
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button>ログアウト</button>
             </form>
+
+            
+        <!-- 未ログインユーザー -->
         {% else %}
             <a>ログインしてください</a>
         {% endif %}
-        
+        <br>
+
     </header>
     {% block content %}
     {% endblock %} 

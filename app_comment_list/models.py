@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 # Create your models here.
 
@@ -11,3 +12,8 @@ class Comment(models.Model):
     category = models.CharField(max_length=255) # コメントカテゴリ。
     content = models.TextField(null=True , blank=True) # コメント内容。
     datetime = models.DateTimeField(default=timezone.now) # 投稿した時刻。
+    
+     
+    # 新規作成・編集完了時のリダイレクト先
+    def get_absolute_url(self):
+         return reverse('home')
