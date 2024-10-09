@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.LoginView.as_view(), name='login'),
     path('home/', views.HomeView.as_view(), name='home'),
+    path('comment/', views.CommentView.as_view(), name='comment'),
     path('comment/create/', views.CreateCommentView.as_view(), name='comm_create'),
-    # path('comment/', views.CommentListView.as_view(), name='list'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 ]

@@ -14,9 +14,10 @@
         <!-- ログイン済ユーザー -->
         {% if request.user.is_authenticated %}        
             <span>ようこそ{{user.get_username}}</span><br>
-
-            <a href="{% url 'comm_create' %}">コメント新規作成</a>
-            <a href="{% url 'home' %}">相談する</a>
+            
+            <a href="{% url 'home' %}">ホーム</a>
+            <a href="{% url 'comment' %}">コメント</a>
+            <a href="{% url 'home' %}">相談</a>
             <a href="{% url 'home' %}">マイプロフィール</a>
 
 
@@ -29,7 +30,7 @@
             
         <!-- 未ログインユーザー -->
         {% else %}
-            <a>ログインしてください</a>
+            <a>！！未ログインユーザーです！！</a>
         {% endif %}
         <br>
 

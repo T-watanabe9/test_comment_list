@@ -38,24 +38,23 @@ class HomeView(LoginRequiredMixin , ListView):
            return Comment.objects.filter(user= current_user) 
      
 
-# コメントリスト画面。ボツ？
-class CommentListView(ListView):
-     template_name = "comment_list.html"
+# コメント画面。
+class CommentView(LoginRequiredMixin , ListView):
+     template_name = "comment.html"
      model = Comment
      def get_queryset(self):
            user = self.request.user
-           return Comment.objects.filter(user= user) # ログインせずに呼び出すとエラー。エラーの理由はしらね。
+           return Comment.objects.filter(user= user) 
      
 
 
 # コメント新規作成ビュー。
 class CreateCommentView(LoginRequiredMixin , CreateView):
-     template_name = "comm_create.html"
+     template_name = "comment_create.html"
      model = Comment
      fields = '__all__'
-     def dispatch(self, request, *args, **kwargs):
-          print('コメント新規作成だよ！')
-          return super().dispatch(request, *args, **kwargs)
+     # def dispatch(self, request, *args, **kwargs):
+     #      return super().dispatch(request, *args, **kwargs)
 
 
 
