@@ -1,6 +1,7 @@
 import json
 from typing                     import Any
 from django.db.models.query     import QuerySet
+from django.forms import BaseModelForm
 from django.http                import HttpRequest
 from django.http.response       import HttpResponse , JsonResponse
 from django.shortcuts           import render , redirect
@@ -9,11 +10,21 @@ from django.views.generic.edit  import CreateView
 from django.contrib.auth.views  import LoginView , LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models                    import Comment
-
 from django.views.decorators.csrf import csrf_protect
 
 
- # Create your views here.
+
+
+
+
+
+
+
+
+
+
+
+
 
  
 # 未ログインユーザーがURLにアクセスしたときのリダイレクト先
@@ -28,6 +39,20 @@ class LoginView(LoginView):
           if request.user.is_authenticated:
                return redirect("home")
           return super().dispatch(request, *args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +85,33 @@ class CommentView(LoginRequiredMixin , ListView):
           # return super().post(self, request, *args, **kwargs)
           print("コメントビュー!post関数!")
           return JsonResponse({'message': 'データが正常に保存されました。'})
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,9 +119,13 @@ class CommentView(LoginRequiredMixin , ListView):
 class CreateCommentView(LoginRequiredMixin , CreateView):
      template_name = "comment_create.html"
      model = Comment
-     fields = '__all__'
-     # def dispatch(self, request, *args, **kwargs):
-     #      return super().dispatch(request, *args, **kwargs)
+     fields = ['category' , 'content']
+     
+     # フォーム入力時に呼び出し。
+     def form_valid(self, form: BaseModelForm) :
+          # 新規作成フォームにて、userフィールドは必ずログインユーザーとする。
+          form.instance.user = self.request.user
+          return super().form_valid(form)
 
 
 

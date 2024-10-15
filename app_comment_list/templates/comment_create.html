@@ -8,7 +8,12 @@
 
     <form method="post">
         {% csrf_token %}
+
+        
         {{form.as_p}}
+        {% comment %}
+        {% endcomment %}
+        
         <br>
         <a href="{% url 'comment' %}">戻る</a>
         <button>登録</button>
