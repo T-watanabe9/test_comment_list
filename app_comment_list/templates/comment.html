@@ -48,8 +48,7 @@
  
  
  <button class="message">テストボタン!</button>
- <button class="message-post">postテストボタン!</button>
-
+ 
  
  
 
@@ -66,37 +65,46 @@
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
  <script>
     $(() => {
-        //console.log('{{user.username}}')
-        
-        const data = {aaa: "bbb"}
-        
-        const button_submit = $('.message');
-        button_submit.on('click', async() =>{
-            console.log("ボタンがクリックされた!")
-            const response = await fetch('/search/' , {
-                method : 'POST',
-                headers : {
-                    'X-CSRFToken': '{{ csrf_token }}' ,
-                    'Content-Type': 'application/json' ,
-                },
-                body : JSON.stringify(data)
-            })
 
-        });
+        const button = $('.message');
+        const data = {
+            test1: "送信メッセージ１" ,
+            test2: "送信メッセージ２" ,
+        }
         
-        const button2 = $('.message-post');
-        button2.on('click', async() =>{
-            console.log("ボタン2がクリックされた!")
-            const response = await fetch('/comment/' , {
-                method : 'POST',
-                headers : {
-                    'X-CSRFToken': '{{ csrf_token }}' ,
-                    'Content-Type': 'application/json' ,
-                },
-                body : JSON.stringify(data)
-            })
+        
+        button.on('click', async() =>{
+            //console.log("テストボタンがクリックされた!")
+            try{
+                const response = await fetch('/comment/' , {
+                    method : 'POST',
+                    headers : {
+                        'X-CSRFToken': '{{ csrf_token }}' ,
+                        'Content-Type': 'application/json' ,
+                    },
+                    body : JSON.stringify(data)
+                })
+               
+                const jsonresponse = await response.json()
+                console.log(jsonresponse.message)
+ 
+            } catch (error){
+                // ネットワークエラーまたはHTTPエラーの処理
+                console.error('エラー:', error);
+            }
+        })
 
-        });
+        // 普通、したにあるかんすうなので後に実行されるが、上にあるやつが非同期処理っでレスポンスを待って実行されるので、同期処理であるこちらが速く実行される。
+        button.on('click', async() =>{
+            console.log("あああ！")
+           
+        })
+        button.on('click', async() =>{
+            console.log("いいい！")
+           
+        })
+
+        
 
     });
  </script>

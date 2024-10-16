@@ -21,6 +21,7 @@ from app_comment_list import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.LoginView.as_view(), name='login'),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
     path('home/', views.HomeView.as_view(), name='home'),
     path('comment/', views.CommentView.as_view(), name='comment'),
     path('search/', views.test_search, name='search'),

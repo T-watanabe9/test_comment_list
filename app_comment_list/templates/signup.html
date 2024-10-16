@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>サインアップ画面</title>
+    </head>
+
+    <body>    
+        
+        <!--ログインフォーム-->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}    
+            <button>ログイン</button>
+        </form>
+
+        <br>
+        <!--新規登録ボタン-->
+        <button>新規登録</button>
+
+    </body>
+
+</html>

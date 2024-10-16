@@ -85,6 +85,8 @@ class CommentView(LoginRequiredMixin , ListView):
      def post(self, request, *args, **kwargs):
           # return super().post(self, request, *args, **kwargs)
           print("コメントビュー!post関数!")
+          dic = test_search(request)
+          print(dic)
           return JsonResponse({'message': 'データが正常に保存されました。'})
      
 
@@ -141,14 +143,11 @@ class LogoutView(LogoutView):
 
 # サーチ関数。
 def test_search(request):
-     print('サーチ関数だよ！！!')
+     print('テストサーチ関数！！!')
      print(request)
      # リクエストのbodyを辞書型に変換
      dic = json.loads(request.body)
-     print(dic)
-     print(dic.get('model'))
-     data = {'data' : 'あああ'}
-     return JsonResponse(data)
+     return dic
 
 
 
